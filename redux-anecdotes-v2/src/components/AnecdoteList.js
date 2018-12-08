@@ -7,7 +7,7 @@ class AnecdoteList extends React.Component {
   }
 
   render() {
-    const anecdotes = this.props.store.getState()
+    const anecdotes = this.props.store.getState().anecdotes
     const renderAnecdote = anecdote => (
       <div key={anecdote.id}>
         <div>
