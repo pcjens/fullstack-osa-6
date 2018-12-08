@@ -1,8 +1,9 @@
 import React from 'react'
+import { voteAnecdote } from '../reducers/anecdoteReducer'
 
 class AnecdoteList extends React.Component {
   vote = (id) => () => {
-    this.props.store.dispatch({ type: 'VOTE', id })
+    this.props.store.dispatch(voteAnecdote(id))
   }
 
   render() {
