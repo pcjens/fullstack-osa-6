@@ -1,4 +1,4 @@
-const initialState = 'Hey, I\'m a notification!'
+const initialState = ''
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
