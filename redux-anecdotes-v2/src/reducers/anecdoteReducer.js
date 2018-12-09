@@ -10,24 +10,29 @@ const reducer = (store = [], action) => {
   case 'CREATE':
     return [ ...store, action.anecdote ]
   case 'INIT_ANECDOTES':
-    console.log(action.anecdotes)
     return action.anecdotes
   default:
     return store
   }
 }
 
-export const createAnecdote = (anecdote) => {
-  return {
-    type: 'CREATE',
-    anecdote
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    const anecdote = await anecdoteService.createAnecdote(content)
+    dispatch({
+      type: 'CREATE',
+      anecdote
+    })
   }
 }
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    id
+export const voteAnecdote = (id, votes) => {
+  return async (dispatch) => {
+    await anecdoteService.voteAnecdote(id, votes + 1)
+    dispatch({
+      type: 'VOTE',
+      id
+    })
   }
 }
 

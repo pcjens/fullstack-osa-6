@@ -3,12 +3,10 @@ import { connect } from 'react-redux'
 import Filter from './Filter'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { clearNotification, setNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 class AnecdoteList extends React.Component {
   vote = (id, content, votes) => () => {
-    anecdoteService.voteAnecdote(id, votes + 1)
-    this.props.voteAnecdote(id)
+    this.props.voteAnecdote(id, votes)
     this.props.setNotification(`You voted for: '${content}'`)
     setTimeout(() => {
       this.props.clearNotification()
