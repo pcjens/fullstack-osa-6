@@ -1,7 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+import { Container, Table } from 'semantic-ui-react'
 
 const Menu = () => {
+  const rootStyle = {
+    marginTop: '1em',
+    marginBottom: '1em',
+  }
+
   const style = {
     color: '#111',
     padding: '0.3em',
@@ -17,7 +23,7 @@ const Menu = () => {
   }
 
   return (
-    <div>
+    <div style={rootStyle}>
       <NavLink style={style} activeStyle={activeStyle} exact to='/'>anecdotes</NavLink>
       <NavLink style={style} activeStyle={activeStyle} exact to='/create'>create new</NavLink>
       <NavLink style={style} activeStyle={activeStyle} exact to='/about'>about</NavLink>
@@ -55,13 +61,20 @@ const Anecdote = ({ anecdote }) => (
 )
 
 const AnecdoteList = ({ anecdotes }) => {
-  const renderAnecdote = anecdote => <li key={anecdote.id}><Link to={'/anecdotes/' + anecdote.id}>{anecdote.content}</Link></li>
+  const renderAnecdote = anecdote =>
+        <Table.Row key={anecdote.id}>
+        <Table.Cell>
+        <Link to={'/anecdotes/' + anecdote.id}>{anecdote.content}</Link>
+        </Table.Cell>
+        </Table.Row>
   return (
     <div>
       <h2>Anecdotes</h2>
-      <ul>
-        {anecdotes.map(renderAnecdote)}
-      </ul>
+      <Table striped celled>
+        <Table.Body>
+          {anecdotes.map(renderAnecdote)}
+        </Table.Body>
+      </Table>
     </div>
   )
 }
@@ -82,6 +95,7 @@ const About = () => (
 
 const Footer = () => {
   const style = {
+    marginTop: '1em',
     fontSize: '0.9rem',
     fontStyle: 'italic'
   }
@@ -199,7 +213,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <Router>
           <div>
             <h1>Software anecdotes</h1>
@@ -212,7 +226,7 @@ class App extends React.Component {
             <Footer />
           </div>
         </Router>
-      </div>
+      </Container>
     );
   }
 }
