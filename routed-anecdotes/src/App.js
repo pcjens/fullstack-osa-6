@@ -9,11 +9,26 @@ const Menu = () => (
   </div>
 )
 
-const Notification = ({message}) => (
-  <div>
-    {message.length > 0 && message}
-  </div>
-)
+const Notification = ({message}) => {
+  if (message.length > 0) {
+    const style = {
+      color: '#295',
+      borderColor: '#2b8',
+      borderWidth: '1px',
+      borderRadius: '3px',
+      borderStyle: 'solid',
+      padding: '0.3em',
+      margin: '0.4em'
+    }
+    return (
+      <div style={style}>
+        {message}
+      </div>
+    )
+  } else {
+    return (<div></div>)
+  }
+}
 
 const Anecdote = ({ anecdote }) => (
   <div>
@@ -49,13 +64,23 @@ const About = () => (
   </div>
 )
 
-const Footer = () => (
-  <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
+const Footer = () => {
+  const style = {
+    fontSize: '0.9rem',
+    fontStyle: 'italic'
+  }
 
-    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
-  </div>
-)
+  return (
+    <div style={style}>
+      <p>
+        Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
+      </p>
+      <p>
+        See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
+      </p>
+    </div>
+  )
+}
 
 class CreateNew extends React.Component {
   constructor() {
