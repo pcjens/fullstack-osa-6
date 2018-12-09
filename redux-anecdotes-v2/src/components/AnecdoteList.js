@@ -14,9 +14,7 @@ class AnecdoteList extends React.Component {
   }
 
   render() {
-    const { anecdotes, filter } = this.props
-    const noFilter = filter.length === 0
-    const anecdoteList = anecdotes.filter(a => noFilter || a.content.toLowerCase().includes(filter)).sort((a, b) => b.votes - a.votes)
+    const { anecdotes } = this.props
     const renderAnecdote = anecdote => (
       <div key={anecdote.id}>
         <div>
@@ -33,17 +31,21 @@ class AnecdoteList extends React.Component {
       <div>
         <h2>Anecdotes</h2>
         <Filter store={this.props.store}/>
-        { anecdoteList.map(renderAnecdote) }
+        { anecdotes.map(renderAnecdote) }
       </div>
     )
   }
 }
 
+const processAnecdotes = (anecdotes, filter) => {
+  return anecdotes
+    .filter(a => filter.length === 0 || a.content.toLowerCase().includes(filter))
+    .sort((a, b) => b.votes - a.votes)
+}
+
 const ConnectedAnecdoteList = connect((state) => {
   return {
-    anecdotes: state.anecdotes,
-    notification: state.notification,
-    filter: state.filter
+    anecdotes: processAnecdotes(state.anecdotes, state.filter)
   }
 }, {
   voteAnecdote, clearNotification, setNotification
