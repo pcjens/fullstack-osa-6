@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
-import { Container, Table } from 'semantic-ui-react'
+import { Container, Table, Grid, Image } from 'semantic-ui-react'
 
 const Menu = () => {
   const rootStyle = {
@@ -61,12 +61,13 @@ const Anecdote = ({ anecdote }) => (
 )
 
 const AnecdoteList = ({ anecdotes }) => {
-  const renderAnecdote = anecdote =>
-        <Table.Row key={anecdote.id}>
-        <Table.Cell>
+  const renderAnecdote = anecdote => (
+    <Table.Row key={anecdote.id}>
+      <Table.Cell>
         <Link to={'/anecdotes/' + anecdote.id}>{anecdote.content}</Link>
-        </Table.Cell>
-        </Table.Row>
+      </Table.Cell>
+    </Table.Row>
+  )
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -82,14 +83,21 @@ const AnecdoteList = ({ anecdotes }) => {
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
-
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
-
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    <Grid columns={2} relaxed>
+      <Grid.Column key='1' floated='left'>
+        <p>According to Wikipedia:</p>
+        <p>
+          <em>An anecdote is a brief, revealing account of an individual person or an incident.
+            Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
+            such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
+            An anecdote is "a story with a point."</em>
+        </p>
+        <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+      </Grid.Column>
+      <Grid.Column key='2' floated='right'>
+        <Image height='200px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/440px-Edsger_Wybe_Dijkstra.jpg'/>
+      </Grid.Column>
+    </Grid>
   </div>
 )
 
