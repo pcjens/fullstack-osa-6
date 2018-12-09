@@ -1,51 +1,23 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
-import { Container, Table, Grid, Image } from 'semantic-ui-react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Container, Table, Grid, Card, Image, Form, Message, Menu, Icon } from 'semantic-ui-react'
 
-const Menu = () => {
-  const rootStyle = {
-    marginTop: '1em',
-    marginBottom: '1em',
-  }
-
-  const style = {
-    color: '#111',
-    padding: '0.3em',
-    paddingRight: '0.3em',
-    paddingLeft: '0.3em',
-    textDecoration: 'none',
-    fontVariant: 'all-small-caps',
-    fontSize: '1.2rem'
-  }
-
-  const activeStyle = {
-    borderBottom: '1px solid #111'
-  }
-
+const Nav = () => {
   return (
-    <div style={rootStyle}>
-      <NavLink style={style} activeStyle={activeStyle} exact to='/'>anecdotes</NavLink>
-      <NavLink style={style} activeStyle={activeStyle} exact to='/create'>create new</NavLink>
-      <NavLink style={style} activeStyle={activeStyle} exact to='/about'>about</NavLink>
-    </div>
+    <Menu pointing secondary>
+      <Link to='/'><Menu.Item link active={window.location.pathname === '/'}>Anecdotes</Menu.Item></Link>
+      <Link to='/create'><Menu.Item link active={window.location.pathname === '/create'}>Create New</Menu.Item></Link>
+      <Link to='/about'><Menu.Item link active={window.location.pathname === '/about'}>About</Menu.Item></Link>
+    </Menu>
   )
 }
 
 const Notification = ({message}) => {
   if (message.length > 0) {
-    const style = {
-      color: '#295',
-      borderColor: '#2b8',
-      borderWidth: '1px',
-      borderRadius: '3px',
-      borderStyle: 'solid',
-      padding: '0.3em',
-      margin: '0.4em'
-    }
     return (
-      <div style={style}>
+      <Message success>
         {message}
-      </div>
+      </Message>
     )
   } else {
     return (<div></div>)
@@ -95,7 +67,19 @@ const About = () => (
         <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
       </Grid.Column>
       <Grid.Column key='2' floated='right'>
-        <Image height='200px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/440px-Edsger_Wybe_Dijkstra.jpg'/>
+        <Card>
+          <Image src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/440px-Edsger_Wybe_Dijkstra.jpg' />
+          <Card.Content>
+            <Card.Header>Edsger W. Dijkstra</Card.Header>
+            <Card.Meta>
+              <span>Known for Dijkstra's Algorithm</span>
+            </Card.Meta>
+            <Card.Description>Dijkstra is a famous software engineer.</Card.Description>
+          </Card.Content>
+          <Card.Content extra>
+            <Icon name='location arrow' /> Route not found.
+          </Card.Content>
+        </Card>
       </Grid.Column>
     </Grid>
   </div>
@@ -114,7 +98,8 @@ const Footer = () => {
         Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
       </p>
       <p>
-        See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
+        See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the original source code,
+        and <a href='https://github.com/pcjens/fullstack-osa-6'>https://github.com/pcjens/fullstack-osa-6</a> for this modified version.
       </p>
     </div>
   )
@@ -147,22 +132,13 @@ class CreateNew extends React.Component {
   render() {
     return(
       <div>
-        <h2>create a new anecdote</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            content
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div>
-          <button>create</button>
-        </form>
+        <h2>Create a new anecdote:</h2>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Input label='Content' name='content' value={this.state.content} onChange={this.handleChange} />
+          <Form.Input label='Author' name='author' value={this.state.author} onChange={this.handleChange} />
+          <Form.Input label='URL for more info' name='info' value={this.state.info} onChange={this.handleChange} />
+          <Form.Button>Create</Form.Button>
+        </Form>
       </div>
     )
   }
@@ -197,7 +173,7 @@ class App extends React.Component {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     this.setState({
       anecdotes: this.state.anecdotes.concat(anecdote),
-      notification: `a new anecdote '${anecdote.content}' created!`
+      notification: `New anecdote created: ${anecdote.content}`
     })
     setTimeout(() => { this.setState({ notification: '' }) }, 10000)
     history.push('/')
@@ -225,7 +201,7 @@ class App extends React.Component {
         <Router>
           <div>
             <h1>Software anecdotes</h1>
-            <Menu />
+            <Nav />
             <Notification message={this.state.notification} />
             <Route exact path='/' render={() => <AnecdoteList anecdotes={this.state.anecdotes} />}></Route>
             <Route exact path='/anecdotes/:id' render={({ match }) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />}></Route>
