@@ -1,4 +1,5 @@
 import React from 'react'
+import Filter from './Filter'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { clearNotification, setNotification } from '../reducers/notificationReducer'
 
@@ -13,6 +14,9 @@ class AnecdoteList extends React.Component {
 
   render() {
     const anecdotes = this.props.store.getState().anecdotes
+    const filter = this.props.store.getState().filter
+    const noFilter = filter.length === 0
+    const anecdoteList = anecdotes.filter(a => noFilter || a.content.toLowerCase().includes(filter)).sort((a, b) => b.votes - a.votes)
     const renderAnecdote = anecdote => (
       <div key={anecdote.id}>
         <div>
@@ -28,7 +32,8 @@ class AnecdoteList extends React.Component {
     return (
       <div>
         <h2>Anecdotes</h2>
-        { anecdotes.sort((a, b) => b.votes - a.votes).map(renderAnecdote) }
+        <Filter store={this.props.store}/>
+        { anecdoteList.map(renderAnecdote) }
       </div>
     )
   }
